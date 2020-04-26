@@ -1,0 +1,37 @@
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
+
+#include <stdlib.h>
+
+typedef struct node node_t;
+struct node
+{
+    int data;
+    node_t *prev;
+    node_t *next;
+};
+
+typedef struct list list_t;
+struct list
+{
+    size_t size;
+    node_t *head;
+};
+
+extern list_t *create_list();
+extern list_t *create_list_val(int data);
+extern node_t *create_node(int, node_t *);
+extern int dll_is_empty(list_t *);
+extern void dll_insert(int, int, list_t *);
+extern void dll_append(int, list_t *);
+extern void dll_prepend(int, list_t *);
+extern void dll_next_node(node_t **);
+extern void dll_prev_node(node_t **);
+extern int dll_contains(int, list_t *);
+extern int *dll_get(int, list_t *);
+extern int *dll_get_first(list_t *);
+extern int *dll_get_last(list_t *);
+extern void dll_free(list_t *);
+extern void dll_delete_idx(int, list_t *);
+
+#endif
