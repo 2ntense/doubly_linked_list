@@ -14,18 +14,18 @@ list_t *create_list()
 list_t *create_list_val(int data)
 {
     list_t *list = create_list();
-    list->head = create_node(data, NULL);
+    list->head = create_node(data, NULL, NULL);
     list->tail = list->head;
     list->size = 1;
     return list;
 }
 
-node_t *create_node(int data, node_t *prev_node)
+node_t *create_node(int data, node_t *prev_node, node_t *next_node)
 {
     node_t *new_node = (node_t *)malloc(sizeof(node_t));
     new_node->data = data;
     new_node->prev = prev_node;
-    new_node->next = NULL;
+    new_node->next = next_node;
     return new_node;
 }
 
@@ -47,13 +47,11 @@ node_t *dll_insert(int index, int data, list_t *list)
     }
     else if (index == 0)
     {
-        dll_prepend(data, list);
-        return NULL;
+        return dll_prepend(data, list);
     }
     else if (index == list->size)
     {
-        dll_append(data, list);
-        return NULL;
+        return dll_push(data, list);
     }
 
     node_t *n_ptr = list->head;
@@ -63,8 +61,7 @@ node_t *dll_insert(int index, int data, list_t *list)
         dll_next_node(&n_ptr);
         i--;
     }
-    node_t *insert_node = create_node(data, n_ptr->prev);
-    insert_node->next = n_ptr;
+    node_t *insert_node = create_node(data, n_ptr->prev, n_ptr);
     insert_node->prev->next = insert_node;
     n_ptr->prev = insert_node;
     list->size++;
@@ -73,32 +70,22 @@ node_t *dll_insert(int index, int data, list_t *list)
 
 node_t *dll_append(int data, list_t *list)
 {
-    if (list->head == NULL)
-    {
-        list->head = create_node(data, NULL);
-        dll_set_tail(list->head, list);
-        list->size++;
-        return NULL;
-    }
-
-    node_t *n_ptr = list->head;
-    while (n_ptr->next != NULL)
-    {
-        dll_next_node(&n_ptr);
-    }
-    n_ptr->next = create_node(data, n_ptr);
-    dll_set_tail(n_ptr->next, list);
-    list->size++;
-    return n_ptr->next;
+    return dll_push(data, list);
 }
 
 node_t *dll_prepend(int data, list_t *list)
 {
-    if (dll_is_empty(list) == 1)
+    if (list == NULL)
     {
-        return dll_append(data, list);
+        return NULL;
     }
-    node_t *new_head = create_node(data, NULL);
+
+    if (dll_is_empty(list))
+    {
+        return dll_push(data, list);
+    }
+
+    node_t *new_head = create_node(data, NULL, NULL);
     new_head->next = list->head;
     list->head->prev = new_head;
     list->head = new_head;
@@ -191,29 +178,85 @@ int *dll_get(int idx, list_t *list)
     return &n_ptr->data;
 }
 
-int *dll_get_first(list_t *list)
+int dll_get_first(list_t *list)
 {
+
     if (list->head != NULL)
     {
-        return &list->head->data;
+        return list->head->data;
     }
-    return NULL;
+    return INT_MIN;
 }
 
-int *dll_get_last(list_t *list)
+int dll_get_last(list_t *list)
 {
-    return dll_get(list->size - 1, list);
+    if (list->tail != NULL)
+    {
+        return list->tail->data;
+    }
+    return INT_MIN;
+}
+
+node_t *dll_push(int val, list_t *list)
+{
+    if (list == NULL)
+    {
+        return NULL;
+    }
+
+    node_t *new_node = create_node(val, NULL, NULL);
+    if (dll_is_empty(list))
+    {
+        list->head = new_node;
+        list->tail = new_node;
+    }
+    else
+    {
+        new_node->prev = list->tail;
+        list->tail->next = new_node;
+        dll_set_tail(new_node, list);
+    }
+
+    list->size++;
+    return new_node;
+}
+
+int dll_pop(list_t *list)
+{
+    if (list == NULL || list->tail == NULL)
+    {
+        return INT_MIN;
+    }
+
+    int ret = list->tail->data;
+
+    if (list->size == 1)
+    {
+        free(list->tail);
+        list->head = NULL;
+        list->tail = NULL;
+    }
+    else
+    {
+        node_t *new_tail = list->tail->prev;
+        list->tail->prev->next = NULL;
+        free(list->tail);
+        dll_set_tail(new_tail, list);
+    }
+    list->size--;
+    return ret;
 }
 
 int main()
 {
     list_t *list = create_list();
 
-    dll_prepend(777, list);
-    dll_append(111, list);
+    dll_push(111, list);
     dll_append(222, list);
-    dll_append(333, list);
-    dll_delete_idx(3, list);
+    dll_prepend(999, list);
+    dll_insert(1, 888, list);
+
+    dll_free(list);
 
     return 0;
 }

@@ -2,6 +2,7 @@
 #define LINKEDLIST_H
 
 #include <stdlib.h>
+#include <limits.h>
 
 typedef struct node node_t;
 struct node
@@ -21,7 +22,7 @@ struct list
 
 extern list_t *create_list();
 extern list_t *create_list_val(int data);
-extern node_t *create_node(int, node_t *);
+extern node_t *create_node(int, node_t *, node_t *);
 extern int dll_is_empty(list_t *);
 extern node_t *dll_insert(int, int, list_t *);
 extern node_t *dll_append(int, list_t *);
@@ -30,9 +31,11 @@ extern void dll_next_node(node_t **);
 extern void dll_prev_node(node_t **);
 extern int dll_contains(int, list_t *);
 extern int *dll_get(int, list_t *);
-extern int *dll_get_first(list_t *);
-extern int *dll_get_last(list_t *);
+extern int dll_get_first(list_t *);
+extern int dll_get_last(list_t *);
 extern void dll_free(list_t *);
 extern void dll_delete_idx(int, list_t *);
+extern node_t *dll_push(int, list_t *);
+extern int dll_pop(list_t *);
 
 #endif
