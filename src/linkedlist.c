@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "linkedlist.h"
 
 list_t *create_list()
@@ -36,11 +34,17 @@ void dll_set_tail(node_t *node, list_t *list)
 
 int dll_is_empty(list_t *list)
 {
-    return (list->head == NULL);
+    return !(list->size > 0);
 }
 
+// can be optimized
 node_t *dll_insert(int index, int data, list_t *list)
 {
+    if (dll_is_empty(list))
+    {
+        return NULL;
+    }
+
     if (index > list->size)
     {
         return NULL;
@@ -95,10 +99,22 @@ node_t *dll_prepend(int data, list_t *list)
 
 void dll_clear(list_t *list)
 {
-    for (int i = (list->size - 1); i >= 0; i--)
+    if (dll_is_empty(list))
     {
-        dll_delete_idx(i, list);
+        return;
     }
+
+    node_t *n = list->head;
+    node_t *to_free = NULL;
+
+    while (n != NULL)
+    {
+        to_free = n;
+        dll_next_node(&n);
+        free(to_free);
+        list->size--;
+    }
+
     list->head = NULL;
     list->tail = NULL;
     list->size = 0;
@@ -106,7 +122,10 @@ void dll_clear(list_t *list)
 
 void dll_free(list_t *list)
 {
-    dll_clear(list);
+    if (list->head != NULL)
+    {
+        dll_clear(list);
+    }
     free(list);
 }
 
@@ -148,6 +167,11 @@ void dll_prev_node(node_t **n)
 
 int dll_contains(int val, list_t *list)
 {
+    if (dll_is_empty(list))
+    {
+        return INT_MIN;
+    }
+
     int idx = 0;
     node_t *n_ptr = list->head;
     while (n_ptr != NULL)
@@ -159,23 +183,23 @@ int dll_contains(int val, list_t *list)
         dll_next_node(&n_ptr);
         idx++;
     }
-    return -1;
+    return INT_MIN;
 }
 
-int *dll_get(int idx, list_t *list)
+// can be optimized
+int dll_get(int idx, list_t *list)
 {
-    node_t *n_ptr = list->head;
-
-    if (n_ptr == NULL)
+    if (dll_is_empty(list))
     {
-        return NULL;
+        return INT_MIN;
     }
 
+    node_t *n_ptr = list->head;
     for (int i = 0; i < idx; i++)
     {
         dll_next_node(&n_ptr);
     }
-    return &n_ptr->data;
+    return n_ptr->data;
 }
 
 int dll_get_first(list_t *list)
@@ -245,18 +269,4 @@ int dll_pop(list_t *list)
     }
     list->size--;
     return ret;
-}
-
-int main()
-{
-    list_t *list = create_list();
-
-    dll_push(111, list);
-    dll_append(222, list);
-    dll_prepend(999, list);
-    dll_insert(1, 888, list);
-
-    dll_free(list);
-
-    return 0;
 }
