@@ -76,11 +76,20 @@ START_TEST(test_dll_clear)
     list_t *test_list;
     test_list = create_list();
 
-    dll_push(111, test_list);
-    dll_push(222, test_list);
-    dll_push(333, test_list);
-    dll_push(444, test_list);
-    dll_push(555, test_list);
+    ck_assert_int_eq(test_list->size, 0);
+    ck_assert_ptr_eq(test_list->head, NULL);
+    ck_assert_ptr_eq(test_list->tail, NULL);
+
+    dll_clear(test_list);
+
+    ck_assert_int_eq(test_list->size, 0);
+    ck_assert_ptr_eq(test_list->head, NULL);
+    ck_assert_ptr_eq(test_list->tail, NULL);
+
+    for (int i = 0; i < 5; i++)
+    {
+        dll_push(i, test_list);
+    }
 
     ck_assert_int_eq(test_list->size, 5);
 
