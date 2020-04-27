@@ -1,5 +1,16 @@
 #include "linkedlist.h"
 
+static inline void dll_next_node(node_t **);
+static inline void dll_prev_node(node_t **);
+static inline void dll_set_tail(node_t *, list_t *);
+
+/**
+ * @brief Returns a new doubly linked list
+ * 
+ * Creates and initializes a new doubly linked list
+ * 
+ * @return Pointer to newly created list
+ */
 list_t *create_list()
 {
     list_t *list = malloc(sizeof(list_t));
@@ -9,6 +20,13 @@ list_t *create_list()
     return list;
 }
 
+/**
+ * Creates a new doubly linked list and initializes with a new node containing the given value
+ * 
+ * @param data the value to be set in the new node
+ * 
+ * @return Pointer to newly created list
+ */
 list_t *create_list_val(int data)
 {
     list_t *list = create_list();
@@ -18,6 +36,15 @@ list_t *create_list_val(int data)
     return list;
 }
 
+/**
+ * Creates a new node
+ * 
+ * @param data the value to be set
+ * @param prev_node pointer to previous node
+ * @param next_node pointer to next node
+ * 
+ * @return pointer to the newly created node
+ */
 node_t *create_node(int data, node_t *prev_node, node_t *next_node)
 {
     node_t *new_node = (node_t *)malloc(sizeof(node_t));
@@ -27,17 +54,32 @@ node_t *create_node(int data, node_t *prev_node, node_t *next_node)
     return new_node;
 }
 
-void dll_set_tail(node_t *node, list_t *list)
+static inline void dll_set_tail(node_t *node, list_t *list)
 {
     list->tail = node;
 }
 
+/**
+ * Checks if list is empty
+ * 
+ * @param list list to be checked
+ * 
+ * @return 1 if empty otherwise 0
+ */
 int dll_is_empty(list_t *list)
 {
     return !(list->size > 0);
 }
 
-// can be optimized
+/**
+ * Inserts new node at given index
+ * 
+ * @param index location of the new node
+ * @param data value of the node
+ * @param list pointer to list
+ * 
+ * @return pointer to newly created node
+ */
 node_t *dll_insert(int index, int data, list_t *list)
 {
     if (dll_is_empty(list))
@@ -72,11 +114,27 @@ node_t *dll_insert(int index, int data, list_t *list)
     return insert_node;
 }
 
+/**
+ * Appends new node containing data
+ * 
+ * @param data value of new node
+ * @param list list to be appended to
+ * 
+ * @return pointer to the new node
+ */
 node_t *dll_append(int data, list_t *list)
 {
     return dll_push(data, list);
 }
 
+/**
+ * Prepends new node containing data
+ * 
+ * @param data value of new node
+ * @param list list to be prepended to
+ * 
+ * @return pointer to the new node
+ */
 node_t *dll_prepend(int data, list_t *list)
 {
     if (list == NULL)
@@ -97,6 +155,12 @@ node_t *dll_prepend(int data, list_t *list)
     return new_head;
 }
 
+/**
+ * Clears list of all nodes
+ * Also calls frees memory held by the nodes
+ * 
+ * @param list list to be cleared
+ */
 void dll_clear(list_t *list)
 {
     if (dll_is_empty(list))
@@ -120,6 +184,11 @@ void dll_clear(list_t *list)
     list->size = 0;
 }
 
+/**
+ * Clears and frees list
+ * 
+ * @param list list to be cleared
+ */
 void dll_free(list_t *list)
 {
     if (list->head != NULL)
@@ -129,6 +198,12 @@ void dll_free(list_t *list)
     free(list);
 }
 
+/**
+ * Deletes node at given index
+ * 
+ * @param index location of node
+ * @param list
+ */
 void dll_delete_idx(int index, list_t *list)
 {
     node_t *n_ptr = list->head;
@@ -155,16 +230,24 @@ void dll_delete_idx(int index, list_t *list)
     list->size--;
 }
 
-void dll_next_node(node_t **n)
+static inline void dll_next_node(node_t **n)
 {
     *n = (*n)->next;
 }
 
-void dll_prev_node(node_t **n)
+static inline void dll_prev_node(node_t **n)
 {
     *n = (*n)->prev;
 }
 
+/**
+ * Check if list contains given value
+ * 
+ * @param val value to be checked
+ * @param list
+ * 
+ * @return index of first node containing the value
+ */
 int dll_contains(int val, list_t *list)
 {
     if (dll_is_empty(list))
@@ -186,7 +269,14 @@ int dll_contains(int val, list_t *list)
     return INT_MIN;
 }
 
-// can be optimized
+/**
+ * Retrieves value at index
+ * 
+ * @param idx index of list
+ * @param list
+ * 
+ * @return value of node
+ */
 int dll_get(int idx, list_t *list)
 {
     if (dll_is_empty(list))
@@ -202,6 +292,13 @@ int dll_get(int idx, list_t *list)
     return n_ptr->data;
 }
 
+/**
+ * Retrieves value from first node
+ * 
+ * @param list
+ * 
+ * @return value of first node
+ */
 int dll_get_first(list_t *list)
 {
 
@@ -212,6 +309,13 @@ int dll_get_first(list_t *list)
     return INT_MIN;
 }
 
+/**
+ * Retrieves value from last node
+ * 
+ * @param list
+ * 
+ * @return value of last node
+ */
 int dll_get_last(list_t *list)
 {
     if (list->tail != NULL)
@@ -221,6 +325,14 @@ int dll_get_last(list_t *list)
     return INT_MIN;
 }
 
+/**
+ * Pushes new node with given value to given list
+ * 
+ * @param val value of new node
+ * @param list
+ * 
+ * @return pointer to new node
+ */
 node_t *dll_push(int val, list_t *list)
 {
     if (list == NULL)
@@ -245,6 +357,13 @@ node_t *dll_push(int val, list_t *list)
     return new_node;
 }
 
+/**
+ * Pops last node from list and returns its value
+ * 
+ * @param list
+ * 
+ * @return value of popped node
+ */
 int dll_pop(list_t *list)
 {
     if (list == NULL || list->tail == NULL)

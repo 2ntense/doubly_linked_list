@@ -27,8 +27,6 @@ extern int dll_is_empty(list_t *);
 extern node_t *dll_insert(int, int, list_t *);
 extern node_t *dll_append(int, list_t *);
 extern node_t *dll_prepend(int, list_t *);
-extern void dll_next_node(node_t **);
-extern void dll_prev_node(node_t **);
 extern int dll_contains(int, list_t *);
 extern int dll_get(int, list_t *);
 extern int dll_get_first(list_t *);
