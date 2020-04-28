@@ -86,7 +86,7 @@ node_t *dll_insert(int index, int data, list_t *list)
         dll_next_node(&n_ptr);
         i--;
     }
-    node_t *insert_node = create_node(data, n_ptr->prev, n_ptr);
+    node_t *insert_node = dll_new_node(data, n_ptr->prev, n_ptr);
     insert_node->prev->next = insert_node;
     n_ptr->prev = insert_node;
     list->size++;
@@ -126,7 +126,7 @@ node_t *dll_prepend(int data, list_t *list)
         return dll_push(data, list);
     }
 
-    node_t *new_head = create_node(data, NULL, NULL);
+    node_t *new_head = dll_new_node(data, NULL, NULL);
     new_head->next = list->head;
     list->head->prev = new_head;
     list->head = new_head;
@@ -320,7 +320,7 @@ node_t *dll_push(int data, list_t *list)
         return NULL;
     }
 
-    node_t *new_node = create_node(data, NULL, NULL);
+    node_t *new_node = dll_new_node(data, NULL, NULL);
     if (dll_is_empty(list))
     {
         list->head = new_node;
