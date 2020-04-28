@@ -155,7 +155,7 @@ void dll_clear(list_t *list)
     {
         to_free = n;
         dll_next_node(&n);
-        free(to_free);
+        dll_free_node(to_free);
         list->size--;
     }
 
@@ -165,12 +165,29 @@ void dll_clear(list_t *list)
 }
 
 /**
+ * @brief Clears and frees node
+ * 
+ * @param node node to be cleared
+ */
+void dll_free_node(node_t *node)
+{
+    if (node != NULL)
+    {
+        free(node);
+    }
+}
+
+/**
  * @brief Clears and frees list
  * 
  * @param list list to be cleared
  */
-void dll_free(list_t *list)
+void dll_free_list(list_t *list)
 {
+    if (list == NULL)
+    {
+        return;
+    }
     if (list->head != NULL)
     {
         dll_clear(list);

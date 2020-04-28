@@ -10,7 +10,20 @@ START_TEST(test_dll_new_list)
     ck_assert_ptr_eq(test_list->head, NULL);
     ck_assert_ptr_eq(test_list->tail, NULL);
 
-    dll_free(test_list);
+    dll_free_list(test_list);
+}
+END_TEST
+
+START_TEST(test_dll_new_node)
+{
+    node_t *test_node;
+    test_node = dll_new_node(111, NULL, NULL);
+
+    ck_assert_int_eq(test_node->data, 111);
+    ck_assert_ptr_eq(test_node->next, NULL);
+    ck_assert_ptr_eq(test_node->prev, NULL);
+
+    dll_free_node(test_node);
 }
 END_TEST
 
@@ -41,7 +54,7 @@ START_TEST(test_dll_push)
     ck_assert_ptr_eq(test_list->head, first_node);
     ck_assert_ptr_eq(test_list->tail, last_node);
 
-    dll_free(test_list);
+    dll_free_list(test_list);
 }
 END_TEST
 
@@ -80,7 +93,7 @@ START_TEST(test_dll_pop)
     ck_assert_int_lt(dll_pop(test_list), 0);
     ck_assert_int_lt(dll_pop(test_list), 0);
 
-    dll_free(test_list);
+    dll_free_list(test_list);
 }
 END_TEST
 
@@ -112,7 +125,7 @@ START_TEST(test_dll_clear)
     ck_assert_ptr_eq(test_list->head, NULL);
     ck_assert_ptr_eq(test_list->tail, NULL);
 
-    dll_free(test_list);
+    dll_free_list(test_list);
 }
 END_TEST
 
@@ -135,7 +148,7 @@ START_TEST(test_dll_prepend)
     ck_assert_int_eq(test_list->head->data, 222);
     ck_assert_int_eq(test_list->tail->data, 111);
 
-    dll_free(test_list);
+    dll_free_list(test_list);
 }
 END_TEST
 
@@ -196,7 +209,7 @@ START_TEST(test_dll_insert)
     ck_assert_ptr_eq(tail_node->next, NULL);
     ck_assert_ptr_eq(tail_node->prev, n0);
 
-    dll_free(test_list);
+    dll_free_list(test_list);
 }
 END_TEST
 
@@ -209,6 +222,7 @@ Suite *linkedlist_suite()
     tc_core = tcase_create("Core");
 
     tcase_add_test(tc_core, test_dll_new_list);
+    tcase_add_test(tc_core, test_dll_new_node);
     tcase_add_test(tc_core, test_dll_push);
     tcase_add_test(tc_core, test_dll_pop);
     tcase_add_test(tc_core, test_dll_clear);
