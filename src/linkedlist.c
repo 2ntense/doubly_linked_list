@@ -223,12 +223,12 @@ static inline void dll_prev_node(node_t **n)
 /**
  * @brief Check if list contains given value
  * 
- * @param val value to be checked
+ * @param data value to be checked
  * @param list
  * 
  * @return index of first node containing the value
  */
-int dll_contains(int val, list_t *list)
+int dll_contains(int data, list_t *list)
 {
     if (dll_is_empty(list))
     {
@@ -239,7 +239,7 @@ int dll_contains(int val, list_t *list)
     node_t *n_ptr = list->head;
     while (n_ptr != NULL)
     {
-        if (n_ptr->data == val)
+        if (n_ptr->data == data)
         {
             return idx;
         }
@@ -252,12 +252,12 @@ int dll_contains(int val, list_t *list)
 /**
  * @brief Retrieves value at index
  * 
- * @param idx index of list
+ * @param index index of list
  * @param list
  * 
  * @return value of node
  */
-int dll_get(int idx, list_t *list)
+int dll_get(int index, list_t *list)
 {
     if (dll_is_empty(list))
     {
@@ -265,7 +265,7 @@ int dll_get(int idx, list_t *list)
     }
 
     node_t *n_ptr = list->head;
-    for (int i = 0; i < idx; i++)
+    for (int i = 0; i < index; i++)
     {
         dll_next_node(&n_ptr);
     }
@@ -308,19 +308,19 @@ int dll_get_last(list_t *list)
 /**
  * @brief Pushes new node with given value to given list
  * 
- * @param val value of new node
+ * @param data value of new node
  * @param list
  * 
  * @return pointer to new node
  */
-node_t *dll_push(int val, list_t *list)
+node_t *dll_push(int data, list_t *list)
 {
     if (list == NULL)
     {
         return NULL;
     }
 
-    node_t *new_node = create_node(val, NULL, NULL);
+    node_t *new_node = create_node(data, NULL, NULL);
     if (dll_is_empty(list))
     {
         list->head = new_node;

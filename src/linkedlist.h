@@ -20,20 +20,20 @@ struct list
     node_t *tail;
 };
 
-extern list_t *dll_new_list();
-extern node_t *dll_new_node(int, node_t *, node_t *);
-extern int dll_is_empty(list_t *);
-extern node_t *dll_insert(int, int, list_t *);
-extern node_t *dll_append(int, list_t *);
-extern node_t *dll_prepend(int, list_t *);
-extern int dll_contains(int, list_t *);
-extern int dll_get(int, list_t *);
-extern int dll_get_first(list_t *);
-extern int dll_get_last(list_t *);
-extern void dll_free(list_t *);
-extern void dll_delete_idx(int, list_t *);
-extern node_t *dll_push(int, list_t *);
-extern int dll_pop(list_t *);
-extern void dll_clear(list_t *);
+extern list_t *dll_new_list(void);
+extern node_t *dll_new_node(int data, node_t *prev_node , node_t *next_node);
+extern int dll_is_empty(list_t *list);
+extern node_t *dll_insert(int index, int data, list_t *list);
+extern node_t *dll_append(int data, list_t *list);
+extern node_t *dll_prepend(int data, list_t *list);
+extern int dll_contains(int data, list_t *list);
+extern int dll_get(int index, list_t *list);
+extern int dll_get_first(list_t *list);
+extern int dll_get_last(list_t *list);
+extern void dll_free(list_t *list);
+extern void dll_delete_idx(int index, list_t *list);
+extern node_t *dll_push(int data, list_t *list);
+extern int dll_pop(list_t *list);
+extern void dll_clear(list_t *list);
 
 #endif
