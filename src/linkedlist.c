@@ -20,24 +20,6 @@ list_t *dll_new_list()
     return list;
 }
 
-// /**
-//  * @brief Returns a new doubly linked list with new node
-//  * 
-//  * Creates a new doubly linked list and initializes with a new node containing the given value
-//  * 
-//  * @param data the value to be set in the new node
-//  * 
-//  * @return Pointer to newly created list
-//  */
-// list_t *dll_new_list_val(int data)
-// {
-//     list_t *list = dll_new_list();
-//     list->head = create_node(data, NULL, NULL);
-//     list->tail = list->head;
-//     list->size = 1;
-//     return list;
-// }
-
 /**
  * @brief Creates a new node
  * 
