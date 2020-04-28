@@ -1,10 +1,23 @@
 #include <check.h>
 #include "../src/linkedlist.h"
 
+START_TEST(test_dll_new_list)
+{
+    list_t *test_list;
+    test_list = dll_new_list();
+
+    ck_assert_int_eq(test_list->size, 0);
+    ck_assert_ptr_eq(test_list->head, NULL);
+    ck_assert_ptr_eq(test_list->tail, NULL);
+
+    dll_free(test_list);
+}
+END_TEST
+
 START_TEST(test_dll_push)
 {
     list_t *test_list;
-    test_list = create_list();
+    test_list = dll_new_list();
 
     ck_assert_int_eq(test_list->size, 0);
     ck_assert_ptr_eq(test_list->head, NULL);
@@ -35,7 +48,7 @@ END_TEST
 START_TEST(test_dll_pop)
 {
     list_t *test_list;
-    test_list = create_list();
+    test_list = dll_new_list();
 
     dll_push(111, test_list);
     dll_push(222, test_list);
@@ -74,7 +87,7 @@ END_TEST
 START_TEST(test_dll_clear)
 {
     list_t *test_list;
-    test_list = create_list();
+    test_list = dll_new_list();
 
     ck_assert_int_eq(test_list->size, 0);
     ck_assert_ptr_eq(test_list->head, NULL);
@@ -106,7 +119,7 @@ END_TEST
 START_TEST(test_dll_prepend)
 {
     list_t *test_list;
-    test_list = create_list();
+    test_list = dll_new_list();
 
     node_t *n0 = dll_prepend(111, test_list);
     ck_assert_ptr_eq(test_list->head, n0);
@@ -129,7 +142,7 @@ END_TEST
 START_TEST(test_dll_insert)
 {
     list_t *test_list;
-    test_list = create_list();
+    test_list = dll_new_list();
     ck_assert_ptr_ne(test_list, NULL);
 
     node_t *n0 = dll_insert(0, 111, test_list);
@@ -195,6 +208,7 @@ Suite *linkedlist_suite()
     s = suite_create("Linked List");
     tc_core = tcase_create("Core");
 
+    tcase_add_test(tc_core, test_dll_new_list);
     tcase_add_test(tc_core, test_dll_push);
     tcase_add_test(tc_core, test_dll_pop);
     tcase_add_test(tc_core, test_dll_clear);
