@@ -27,6 +27,26 @@ START_TEST(test_dll_new_node)
 }
 END_TEST
 
+START_TEST(test_dll_is_empty)
+{
+    list_t *test_list;
+    test_list = dll_new_list();
+
+    int is_empty = dll_is_empty(test_list);
+    ck_assert_int_eq(is_empty, 1);
+
+    dll_append(0, test_list);
+    is_empty = dll_is_empty(test_list);
+    ck_assert_int_eq(is_empty, 0);
+
+    dll_clear(test_list);
+    is_empty = dll_is_empty(test_list);
+    ck_assert_int_eq(is_empty, 1);
+
+    dll_free_list(test_list);
+}
+END_TEST
+
 START_TEST(test_dll_push)
 {
     list_t *test_list;
@@ -213,6 +233,112 @@ START_TEST(test_dll_insert)
 }
 END_TEST
 
+START_TEST(test_dll_contains)
+{
+    list_t *test_list;
+    test_list = dll_new_list();
+
+    int contains = dll_contains(0, test_list);
+    ck_assert_int_eq(contains, INT_MIN);
+
+    dll_append(0, test_list);
+    contains = dll_contains(0, test_list);
+    ck_assert_int_eq(contains, 0);
+
+    dll_append(1, test_list);
+    contains = dll_contains(0, test_list);
+    ck_assert_int_eq(contains, 0);
+
+    contains = dll_contains(1, test_list);
+    ck_assert_int_eq(contains, 1);
+
+    contains = dll_contains(2, test_list);
+    ck_assert_int_eq(contains, INT_MIN);
+
+    dll_free_list(test_list);
+}
+END_TEST
+
+START_TEST(test_dll_get)
+{
+    list_t *test_list;
+    test_list = dll_new_list();
+
+    int res = dll_get(0, test_list);
+    ck_assert_int_eq(res, INT_MIN);
+    res = dll_get(1, test_list);
+    ck_assert_int_eq(res, INT_MIN);
+
+    dll_append(111, test_list);
+    dll_append(222, test_list);
+    dll_append(333, test_list);
+    dll_append(444, test_list);
+    dll_append(555, test_list);
+
+    res = dll_get(0, test_list);
+    ck_assert_int_eq(res, 111);
+
+    res = dll_get(1, test_list);
+    ck_assert_int_eq(res, 222);
+
+    res = dll_get(4, test_list);
+    ck_assert_int_eq(res, 555);
+
+    res = dll_get(5, test_list);
+    ck_assert_int_eq(res, INT_MIN);
+
+    dll_free_list(test_list);
+}
+END_TEST
+
+START_TEST(test_dll_get_first)
+{
+    list_t *test_list;
+    test_list = dll_new_list();
+
+    int res = dll_get_first(test_list);
+    ck_assert_int_eq(res, INT_MIN);
+
+    dll_append(111, test_list);
+    res = dll_get_first(test_list);
+    ck_assert_int_eq(res, 111);
+
+    dll_append(222, test_list);
+    res = dll_get_first(test_list);
+    ck_assert_int_eq(res, 111);
+
+    dll_prepend(333, test_list);
+    res = dll_get_first(test_list);
+    ck_assert_int_eq(res, 333);
+
+    dll_free_list(test_list);
+}
+END_TEST
+
+START_TEST(test_dll_get_last)
+{
+    list_t *test_list;
+    test_list = dll_new_list();
+
+    int res = dll_get_last(test_list);
+    ck_assert_int_eq(res, INT_MIN);
+
+    dll_append(111, test_list);
+    res = dll_get_last(test_list);
+    ck_assert_int_eq(res, 111);
+
+    dll_append(222, test_list);
+    res = dll_get_last(test_list);
+    ck_assert_int_eq(res, 222);
+
+    dll_prepend(333, test_list);
+    res = dll_get_last(test_list);
+    ck_assert_int_eq(res, 222);
+
+    dll_free_list(test_list);
+}
+END_TEST
+
 Suite *linkedlist_suite()
 {
     Suite *s;
@@ -223,11 +349,16 @@ Suite *linkedlist_suite()
 
     tcase_add_test(tc_core, test_dll_new_list);
     tcase_add_test(tc_core, test_dll_new_node);
+    tcase_add_test(tc_core, test_dll_is_empty);
+    tcase_add_test(tc_core, test_dll_get);
+    tcase_add_test(tc_core, test_dll_get_first);
+    tcase_add_test(tc_core, test_dll_get_last);
     tcase_add_test(tc_core, test_dll_push);
     tcase_add_test(tc_core, test_dll_pop);
     tcase_add_test(tc_core, test_dll_clear);
     tcase_add_test(tc_core, test_dll_prepend);
     tcase_add_test(tc_core, test_dll_insert);
+    tcase_add_test(tc_core, test_dll_contains);
 
     suite_add_tcase(s, tc_core);
 
