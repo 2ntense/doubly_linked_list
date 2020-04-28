@@ -280,6 +280,10 @@ int dll_get(int index, list_t *list)
     {
         return INT_MIN;
     }
+    else if(index >= list->size)
+    {
+        return INT_MIN;
+    }
 
     node_t *n_ptr = list->head;
     for (int i = 0; i < index; i++)
