@@ -9,7 +9,7 @@ static inline void dll_set_tail(node_t *, list_t *);
  * 
  * Creates and initializes a new doubly linked list
  * 
- * @return Pointer to newly created list
+ * @return Pointer to new list
  */
 list_t *create_list()
 {
@@ -21,6 +21,8 @@ list_t *create_list()
 }
 
 /**
+ * @brief Returns a new doubly linked list with new node
+ * 
  * Creates a new doubly linked list and initializes with a new node containing the given value
  * 
  * @param data the value to be set in the new node
@@ -37,7 +39,7 @@ list_t *create_list_val(int data)
 }
 
 /**
- * Creates a new node
+ * @brief Creates a new node
  * 
  * @param data the value to be set
  * @param prev_node pointer to previous node
@@ -60,7 +62,7 @@ static inline void dll_set_tail(node_t *node, list_t *list)
 }
 
 /**
- * Checks if list is empty
+ * @brief Checks if list is empty
  * 
  * @param list list to be checked
  * 
@@ -72,7 +74,7 @@ int dll_is_empty(list_t *list)
 }
 
 /**
- * Inserts new node at given index
+ * @brief Inserts new node at given index
  * 
  * @param index location of the new node
  * @param data value of the node
@@ -110,7 +112,7 @@ node_t *dll_insert(int index, int data, list_t *list)
 }
 
 /**
- * Appends new node containing data
+ * @brief Appends new node containing data
  * 
  * @param data value of new node
  * @param list list to be appended to
@@ -123,7 +125,7 @@ node_t *dll_append(int data, list_t *list)
 }
 
 /**
- * Prepends new node containing data
+ * @brief Prepends new node containing data
  * 
  * @param data value of new node
  * @param list list to be prepended to
@@ -151,7 +153,8 @@ node_t *dll_prepend(int data, list_t *list)
 }
 
 /**
- * Clears list of all nodes
+ * @brief Clears list of all nodes
+ * 
  * Also calls frees memory held by the nodes
  * 
  * @param list list to be cleared
@@ -180,7 +183,7 @@ void dll_clear(list_t *list)
 }
 
 /**
- * Clears and frees list
+ * @brief Clears and frees list
  * 
  * @param list list to be cleared
  */
@@ -194,7 +197,7 @@ void dll_free(list_t *list)
 }
 
 /**
- * Deletes node at given index
+ * @brief Deletes node at given index
  * 
  * @param index location of node
  * @param list
@@ -236,7 +239,7 @@ static inline void dll_prev_node(node_t **n)
 }
 
 /**
- * Check if list contains given value
+ * @brief Check if list contains given value
  * 
  * @param val value to be checked
  * @param list
@@ -265,7 +268,7 @@ int dll_contains(int val, list_t *list)
 }
 
 /**
- * Retrieves value at index
+ * @brief Retrieves value at index
  * 
  * @param idx index of list
  * @param list
@@ -288,7 +291,7 @@ int dll_get(int idx, list_t *list)
 }
 
 /**
- * Retrieves value from first node
+ * @brief Retrieves value from first node
  * 
  * @param list
  * 
@@ -305,7 +308,7 @@ int dll_get_first(list_t *list)
 }
 
 /**
- * Retrieves value from last node
+ * @brief Retrieves value from last node
  * 
  * @param list
  * 
@@ -321,7 +324,7 @@ int dll_get_last(list_t *list)
 }
 
 /**
- * Pushes new node with given value to given list
+ * @brief Pushes new node with given value to given list
  * 
  * @param val value of new node
  * @param list
@@ -353,7 +356,7 @@ node_t *dll_push(int val, list_t *list)
 }
 
 /**
- * Pops last node from list and returns its value
+ * @brief Pops last node from list and returns its value
  * 
  * @param list
  * 
