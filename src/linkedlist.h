@@ -20,9 +20,9 @@ struct list
     node_t *tail;
 };
 
-extern list_t *create_list();
-extern list_t *create_list_val(int data);
-extern node_t *create_node(int, node_t *, node_t *);
+extern list_t *dll_new_list();
+// extern list_t *dll_new_list(int data);
+extern node_t *dll_new_node(int, node_t *, node_t *);
 extern int dll_is_empty(list_t *);
 extern node_t *dll_insert(int, int, list_t *);
 extern node_t *dll_append(int, list_t *);

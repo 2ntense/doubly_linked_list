@@ -11,7 +11,7 @@ static inline void dll_set_tail(node_t *, list_t *);
  * 
  * @return Pointer to new list
  */
-list_t *create_list()
+list_t *dll_new_list()
 {
     list_t *list = malloc(sizeof(list_t));
     list->head = NULL;
@@ -20,23 +20,23 @@ list_t *create_list()
     return list;
 }
 
-/**
- * @brief Returns a new doubly linked list with new node
- * 
- * Creates a new doubly linked list and initializes with a new node containing the given value
- * 
- * @param data the value to be set in the new node
- * 
- * @return Pointer to newly created list
- */
-list_t *create_list_val(int data)
-{
-    list_t *list = create_list();
-    list->head = create_node(data, NULL, NULL);
-    list->tail = list->head;
-    list->size = 1;
-    return list;
-}
+// /**
+//  * @brief Returns a new doubly linked list with new node
+//  * 
+//  * Creates a new doubly linked list and initializes with a new node containing the given value
+//  * 
+//  * @param data the value to be set in the new node
+//  * 
+//  * @return Pointer to newly created list
+//  */
+// list_t *dll_new_list_val(int data)
+// {
+//     list_t *list = dll_new_list();
+//     list->head = create_node(data, NULL, NULL);
+//     list->tail = list->head;
+//     list->size = 1;
+//     return list;
+// }
 
 /**
  * @brief Creates a new node
@@ -47,7 +47,7 @@ list_t *create_list_val(int data)
  * 
  * @return pointer to the newly created node
  */
-node_t *create_node(int data, node_t *prev_node, node_t *next_node)
+node_t *dll_new_node(int data, node_t *prev_node, node_t *next_node)
 {
     node_t *new_node = (node_t *)malloc(sizeof(node_t));
     new_node->data = data;
