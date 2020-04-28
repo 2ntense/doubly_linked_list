@@ -82,11 +82,6 @@ int dll_is_empty(list_t *list)
  */
 node_t *dll_insert(int index, int data, list_t *list)
 {
-    if (dll_is_empty(list))
-    {
-        return NULL;
-    }
-
     if (index > list->size)
     {
         return NULL;
